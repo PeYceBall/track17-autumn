@@ -1,6 +1,8 @@
 package ru.track;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
 
 /**
@@ -40,7 +42,45 @@ public class CountWords {
      * @return - целое число - сумма всех чисел из файла
      */
     public long countNumbers(File file) throws Exception {
-        return 0;
+        long summ = 0;
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try
+        {
+            String s;
+            while((s = reader.readLine()) != null)
+            {
+                if(s.equals(this.skipWord))
+                {
+                    continue;
+                }
+
+
+                boolean flag = true;
+
+                for(int i = 0; i < s.length(); i++)
+                {
+                    if(Character.isLetter(s.charAt(i)))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if(flag)
+                {
+                    summ += new Long(s);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally {
+            reader.close();
+        }
+
+        return summ;
     }
 
 
@@ -52,7 +92,50 @@ public class CountWords {
      * @return - результирующая строка
      */
     public String concatWords(File file) throws Exception {
-        return null;
+        StringBuilder result = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try
+        {
+            String s;
+            while ((s = reader.readLine()) != null)
+            {
+                if(s.equals(this.skipWord))
+                {
+                    continue;
+                }
+
+                if(s.isEmpty())
+                {
+                    continue;
+                }
+
+                boolean flag = false;
+                for(int i = 0; i < s.length(); i++)
+                {
+                    if(Character.isLetter(s.charAt(i)) )
+                    {
+                       flag = true;
+                       break;
+                    }
+                }
+
+                if(flag)
+                {
+                    result.append(s);
+                    result.append(" ");
+                }
+
+            }
+        }
+        catch(Exception e)
+        {
+            throw e;
+        }
+        finally {
+            reader.close();
+        }
+
+        return result.toString();
     }
 
 }
